@@ -1,18 +1,14 @@
-import { readInput } from "../lib/index";
+import { readLines } from "../lib/index";
 
-function factors(input: Array<number>, target: number) {
+async function getInput(): Promise<number[]> {
+  return (await readLines(__dirname, parseInt)).sort((a, b) => a - b);
+}
+
+function factors(input: Array<number>, target: number): number[] {
   return input
     .map((i) => target - i)
     .filter((i) => i >= input[0])
     .filter((i) => ~input.indexOf(i));
-}
-
-async function getInput() {
-  return (await readInput(__dirname))
-    .split("\n")
-    .slice(0, -1) // Take out the last empty line
-    .map((i) => parseInt(i))
-    .sort((a, b) => a - b);
 }
 
 async function part1() {
