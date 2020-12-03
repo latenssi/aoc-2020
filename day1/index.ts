@@ -1,4 +1,4 @@
-import { assert } from "console";
+import assert from "assert";
 import { arrayProduct, readLines } from "../lib/index";
 
 async function getInput(): Promise<number[]> {

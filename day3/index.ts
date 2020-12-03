@@ -1,4 +1,4 @@
-import { assert } from "console";
+import assert from "assert";
 import { arrayProduct, readLines } from "../lib/index";
 
 type Grid = {
@@ -56,9 +56,9 @@ async function test1() {
   assert(getGridObjectAtCoord(grid, { x: 23, y: 2 }) === "#");
   const slope: Vec2d = { x: 3, y: 1 };
   const path = getPath(grid, slope);
-  assert(
-    JSON.stringify(path) ==
-      JSON.stringify([".", ".", "#", ".", "#", "#", ".", "#", "#", "#", "#"]),
+  assert.deepStrictEqual(
+    path,
+    [".", ".", "#", ".", "#", "#", ".", "#", "#", "#", "#"],
     "Path parsed incorrectly"
   );
   const count = countGridObjectInPath("#", path);
