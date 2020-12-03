@@ -1,7 +1,8 @@
-import { readLines } from "../lib/index";
+import { assert } from "console";
+import { arrayProduct, readLines } from "../lib/index";
 
 async function getInput(): Promise<number[]> {
-  return (await readLines(__dirname, parseInt)).sort((a, b) => a - b);
+  return (await readLines(__dirname, (l) => parseInt(l))).sort((a, b) => a - b);
 }
 
 function factors(input: Array<number>, target: number): number[] {
@@ -14,11 +15,12 @@ function factors(input: Array<number>, target: number): number[] {
 async function part1() {
   const input = await getInput();
 
-  const numbers = factors(input, 2020);
+  const numbers = Array.from(new Set(factors(input, 2020)));
+  const product = arrayProduct(numbers);
 
-  console.log(
-    `Result part 1: numbers [${numbers}], product ${numbers[0] * numbers[1]}`
-  );
+  assert(product === 921504);
+
+  console.log(`Result part 1: numbers [${numbers}], product ${product}`);
 }
 
 async function part2() {
@@ -34,13 +36,13 @@ async function part2() {
   const aPlusBFactors = aPlusB.map((ab) => factors(input, ab));
 
   const numbers = Array.from(new Set(aPlusBFactors.flat()));
+  const product = arrayProduct(numbers);
 
-  console.log(
-    `Result part 2: numbers [${numbers}], product ${
-      numbers[0] * numbers[1] * numbers[2]
-    }`
-  );
+  assert(product === 195700142);
+
+  console.log(`Result part 2: numbers [${numbers}], product ${product}`);
 }
 
+console.log("Day 1");
 part1();
 part2();

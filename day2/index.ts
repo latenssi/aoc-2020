@@ -40,6 +40,8 @@ async function part1() {
     checkPassword1(policy, password)
   );
 
+  assert(valid.length === 546);
+
   console.log(`Result part 1: ${valid.length}`);
 }
 
@@ -48,6 +50,8 @@ async function part2() {
   const valid = input.filter(({ policy, password }) =>
     checkPassword2(policy, password)
   );
+
+  assert(valid.length === 275);
 
   console.log(`Result part 2: ${valid.length}`);
 }
@@ -62,6 +66,7 @@ function test2() {
   assert(valid.length === 1, "Error in checkpassword2");
 }
 
+console.log("Day 2");
+test2();
 part1();
 part2();
-test2();
