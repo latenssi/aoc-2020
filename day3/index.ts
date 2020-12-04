@@ -14,8 +14,8 @@ type Vec2d = {
   y: number;
 };
 
-async function getInput(filename?: string) {
-  return await readLines(__dirname, undefined, filename);
+async function getInput(filename: string = "input.txt"): Promise<Grid> {
+  return parseGrid(await readLines(__dirname, filename));
 }
 
 function parseGrid(input: string[]): Grid {
@@ -51,7 +51,7 @@ function countGridObjectInPath(object: GridObject, path: GridObject[]): number {
 }
 
 async function test1() {
-  const grid = parseGrid(await getInput("test1.txt"));
+  const grid = await getInput("test.txt");
   assert(getGridObjectAtCoord(grid, { x: 11, y: 1 }) === "#");
   assert(getGridObjectAtCoord(grid, { x: 23, y: 2 }) === "#");
   const slope: Vec2d = { x: 3, y: 1 };
@@ -65,8 +65,20 @@ async function test1() {
   assert(count === 7, "Number of #'s is incorrect");
 }
 
+async function part1() {
+  const grid = await getInput();
+
+  const slope: Vec2d = { x: 3, y: 1 };
+  const path = getPath(grid, slope);
+  const count = countGridObjectInPath("#", path);
+
+  assert(count === 191);
+
+  console.log(`Result part 1: ${count}`);
+}
+
 async function test2() {
-  const grid = parseGrid(await getInput("test1.txt"));
+  const grid = await getInput("test.txt");
   const slopes: Vec2d[] = [
     { x: 1, y: 1 },
     { x: 3, y: 1 },
@@ -80,20 +92,8 @@ async function test2() {
   assert(product === 336, "Incorrect product in test2");
 }
 
-async function part1() {
-  const grid = parseGrid(await getInput());
-
-  const slope: Vec2d = { x: 3, y: 1 };
-  const path = getPath(grid, slope);
-  const count = countGridObjectInPath("#", path);
-
-  assert(count === 191);
-
-  console.log(`Result part 1: ${count}`);
-}
-
 async function part2() {
-  const grid = parseGrid(await getInput());
+  const grid = await getInput();
 
   const slopes: Vec2d[] = [
     { x: 1, y: 1 },
@@ -111,8 +111,10 @@ async function part2() {
   console.log(`Result part 2: ${product}`);
 }
 
-console.log("Day 3");
+console.log(__dirname);
+
 test1();
-test2();
 part1();
+
+test2();
 part2();

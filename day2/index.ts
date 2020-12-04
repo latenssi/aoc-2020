@@ -12,15 +12,20 @@ type Parsed = {
   password: string;
 };
 
-async function getInput() {
-  return await readLines(__dirname, parsePolicy);
+async function getInput(filename = "input.txt"): Promise<Parsed[]> {
+  return parsePolicies(await readLines(__dirname, filename));
 }
 
 const pattern = /(\d+)-(\d+) (\w): (\w+)/;
 
-function parsePolicy(line: string): Parsed {
-  const [_, min, max, char, password] = pattern.exec(line) || [];
-  return { policy: { min: parseInt(min), max: parseInt(max), char }, password };
+function parsePolicies(input: string[]): Parsed[] {
+  return input.map((line) => {
+    const [_, min, max, char, password] = pattern.exec(line) || [];
+    return {
+      policy: { min: parseInt(min), max: parseInt(max), char },
+      password,
+    };
+  });
 }
 
 function checkPassword1(policy: Policy, password: string): boolean {
@@ -45,6 +50,14 @@ async function part1() {
   console.log(`Result part 1: ${valid.length}`);
 }
 
+async function test2() {
+  const input = await getInput("test.txt");
+  const valid = input.filter(({ policy, password }) =>
+    checkPassword2(policy, password)
+  );
+  assert(valid.length === 1, "Error in checkpassword2");
+}
+
 async function part2() {
   const input = await getInput();
   const valid = input.filter(({ policy, password }) =>
@@ -56,17 +69,9 @@ async function part2() {
   console.log(`Result part 2: ${valid.length}`);
 }
 
-function test2() {
-  const input = ["1-3 a: abcde", "1-3 b: cdefg", "2-9 c: ccccccccc"].map(
-    parsePolicy
-  );
-  const valid = input.filter(({ policy, password }) =>
-    checkPassword2(policy, password)
-  );
-  assert(valid.length === 1, "Error in checkpassword2");
-}
+console.log(__dirname);
 
-console.log("Day 2");
-test2();
 part1();
+
+test2();
 part2();

@@ -1,8 +1,10 @@
 import assert from "assert";
 import { arrayProduct, readLines } from "../lib/index";
 
-async function getInput(): Promise<number[]> {
-  return (await readLines(__dirname, (l) => parseInt(l))).sort((a, b) => a - b);
+async function getInput(filename = "input.txt"): Promise<number[]> {
+  return (await readLines(__dirname, filename))
+    .map((l) => parseInt(l))
+    .sort((a, b) => a - b);
 }
 
 function factors(input: Array<number>, target: number): number[] {
@@ -43,6 +45,8 @@ async function part2() {
   console.log(`Result part 2: numbers [${numbers}], product ${product}`);
 }
 
-console.log("Day 1");
+console.log(__dirname);
+
 part1();
+
 part2();
