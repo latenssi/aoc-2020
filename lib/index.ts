@@ -28,6 +28,20 @@ export function arrayProduct(array: number[]): number {
   return array.reduce((acc, cur) => acc * cur, 1);
 }
 
+export function arraySum(array: number[]): number {
+  return array.reduce((acc, cur) => acc + cur, 0);
+}
+
+export function intersection(setA: Set<string>, setB: Set<string>) {
+  let _intersection = new Set();
+  for (let elem of setB) {
+    if (setA.has(elem)) {
+      _intersection.add(elem);
+    }
+  }
+  return _intersection;
+}
+
 export function symmetricDifference(setA: Set<string>, setB: Set<string>) {
   const _difference = new Set(setA);
   for (let elem of setB) {
